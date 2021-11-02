@@ -4,3 +4,12 @@
 // nodeIntegration is set to true in webPreferences.
 // Use preload.js to selectively enable features
 // needed in the renderer process.
+
+document.getElementById('button-1').addEventListener('click', async () => {
+    document.getElementById('label-input').innerHTML += "1"
+})
+
+document.getElementById('button-ac').addEventListener('click', async () => {
+    document.getElementById('label-input').innerHTML = ""
+})
+
