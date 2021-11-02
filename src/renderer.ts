@@ -5,9 +5,12 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-document.getElementById('button-1').addEventListener('click', async () => {
-    document.getElementById('label-input').innerHTML += "1"
-})
+for (let index = 1; index < 10; index++) {
+    document.getElementById(`button-${index}`).addEventListener('click', async () => {
+        document.getElementById('label-input').innerHTML += `${index}`
+    })   
+}
+
 
 document.getElementById('button-ac').addEventListener('click', async () => {
     document.getElementById('label-input').innerHTML = ""
