@@ -11,19 +11,33 @@ type Digit = '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'
 class Calculator {
     private Num1?:number
     private Answer?:number
+    private isminus:boolean
 
     constructor(private document:Document) {
         this.Num1 = undefined
         this.Answer = null
+        this.isminus = true
     }
 
     input_number(digit:Digit){
         if (this.Num1 == undefined) {
             if (digit != "0") {
-                this.Num1 = Number(digit)
+                if (this.isminus) {
+                    this.Num1 = Number(digit)
+                } else {
+                    this.Num1 = -Number(digit)
+                }
+                this.isminus = true
             }
         } else {
-            this.Num1 = this.Num1 * 10 + Number(digit)
+            this.Num1 = Number(`${this.Num1}` + digit)
+        }
+        this.refresh()
+    }
+
+    minus(){
+        if (this.Num1 == undefined) {
+            this.isminus = !this.isminus
         }
         this.refresh()
     }
@@ -44,7 +58,12 @@ class Calculator {
 
     refresh(){
         if (this.Num1 == undefined) {
-            document.getElementById('label-input').innerHTML = ""
+            if (this.isminus) {
+                document.getElementById('label-input').innerHTML = ""
+            } else {
+                document.getElementById('label-input').innerHTML = "-"
+            }
+            
         } else {
             document.getElementById('label-input').innerHTML = `${this.Num1}`
         }
@@ -63,6 +82,10 @@ for (let index = 0; index < 10; index++) {
         MyCal.input_number(<Digit>`${index}`)
     })   
 }
+
+document.getElementById('button-minus').addEventListener('click', async () => {
+    MyCal.minus()
+})
 
 document.getElementById('button-ac').addEventListener('click', async () => {
     MyCal.AC()
