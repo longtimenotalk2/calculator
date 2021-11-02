@@ -11,8 +11,22 @@ for (let index = 1; index < 10; index++) {
     })   
 }
 
+document.getElementById(`button-0`).addEventListener('click', async () => {
+    let input_now = document.getElementById('label-input').innerHTML
+    if (input_now != "") {
+        document.getElementById('label-input').innerHTML += '0'
+    }
+}) 
 
 document.getElementById('button-ac').addEventListener('click', async () => {
     document.getElementById('label-input').innerHTML = ""
+    document.getElementById('label-output').innerHTML = ""
 })
 
+document.getElementById('button-enter').addEventListener('click', async () => {
+    let result = document.getElementById('label-input').innerHTML
+    if (result != "") {
+        document.getElementById('label-output').innerHTML = result
+        document.getElementById('label-input').innerHTML = ""
+    }
+})
