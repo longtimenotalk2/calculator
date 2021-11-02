@@ -5,28 +5,69 @@
 // Use preload.js to selectively enable features
 // needed in the renderer process.
 
-for (let index = 1; index < 10; index++) {
+// enum Digit {i0="0", i1="1",i2="2",i3="3",i4="4",i5="5",i6="6",i7="7",i8="8",i9="9"}
+type Digit = '0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'
+
+class Calculator {
+    private Num1?:number
+    private Answer?:number
+
+    constructor(private document:Document) {
+        this.Num1 = undefined
+        this.Answer = null
+    }
+
+    input_number(digit:Digit){
+        if (this.Num1 == undefined) {
+            if (digit != "0") {
+                this.Num1 = Number(digit)
+            }
+        } else {
+            this.Num1 = this.Num1 * 10 + Number(digit)
+        }
+        this.refresh()
+    }
+
+    AC(){
+        this.Num1 = undefined
+        this.Answer = null
+        this.refresh()
+    }
+
+    enter(){
+        if (this.Num1 != undefined) {
+            this.Answer = this.Num1
+            this.Num1 = undefined
+            this.refresh()
+        }
+    }
+
+    refresh(){
+        if (this.Num1 == undefined) {
+            document.getElementById('label-input').innerHTML = ""
+        } else {
+            document.getElementById('label-input').innerHTML = `${this.Num1}`
+        }
+        if (this.Answer == null) {
+            document.getElementById('label-output').innerHTML = ""
+        } else {
+            document.getElementById('label-output').innerHTML = `${this.Answer}`
+        }
+    }
+}
+
+let MyCal = new Calculator(document)
+
+for (let index = 0; index < 10; index++) {
     document.getElementById(`button-${index}`).addEventListener('click', async () => {
-        document.getElementById('label-input').innerHTML += `${index}`
+        MyCal.input_number(<Digit>`${index}`)
     })   
 }
 
-document.getElementById(`button-0`).addEventListener('click', async () => {
-    let input_now = document.getElementById('label-input').innerHTML
-    if (input_now != "") {
-        document.getElementById('label-input').innerHTML += '0'
-    }
-}) 
-
 document.getElementById('button-ac').addEventListener('click', async () => {
-    document.getElementById('label-input').innerHTML = ""
-    document.getElementById('label-output').innerHTML = ""
+    MyCal.AC()
 })
 
 document.getElementById('button-enter').addEventListener('click', async () => {
-    let result = document.getElementById('label-input').innerHTML
-    if (result != "") {
-        document.getElementById('label-output').innerHTML = result
-        document.getElementById('label-input').innerHTML = ""
-    }
+    MyCal.enter()
 })
